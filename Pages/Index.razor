@@ -1,0 +1,71 @@
+﻿@page "/"
+
+<PageTitle>Simulated annealing for TSP</PageTitle>
+
+<h1>Simulated annealing for TSP</h1>
+<hr />
+<table>
+    <tr>Number of cities</tr>
+    <tr>
+        <td><input @bind=N /></td>        
+    </tr>   
+</table>
+<hr />
+@if(data != null)
+{
+    <table>    
+        @for (int i = 0; i < n; i++)
+        {
+           <tr>
+               @for (int j = 0; j < n; j++)
+                {
+                    var ii = i;
+                    var jj = j;  
+                    if(i!= j)
+                    {
+                        <td>
+                            <input type="number" 
+                                   value="@data[i, j]" 
+                                   @onchange="(ChangeEventArgs e)=> setData(ii, jj, double.Parse(e.Value.ToString()))" />
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <input disabled />
+                        </td>
+                    }
+               }
+           </tr>
+        }
+    </table>
+    <hr />
+    <table>
+        <tr>
+            <td>Start temperature</td>
+            <td>Coefficient</td>
+        </tr>
+        <tr>
+            <td><input @bind=startTemperature /></td>
+            <td><input @bind=c /></td>
+        </tr>    
+        <tr>
+            <td><button @onclick=Solve>Solve</button></td>
+        </tr> 
+    </table>
+    <hr />
+    @if(solution != null)
+    {        
+        <b>Result: @solution.Result</b>
+        <br />
+        <b>Seqience:  
+            @foreach(var el in solution.Sequence)
+            {
+                @(el+" ")
+            }        
+        </b>
+        <br />
+        <b>Calculation time: @calculationTime.ToString()</b>
+    }
+}
+
